@@ -15,7 +15,7 @@ ui <- dashboardPage(
     
             menuItem("Control your expenses", tabName = "expenses", icon = icon("briefcase", lib = "glyphicon")),
             menuItem("Saving Capacity", tabName = "saving", icon = icon("piggy-bank", lib = "glyphicon")),
-            menuItem("Want a credit? Sure", tabName = "credit", icon = icon("usd",lib = "glyphicon")),
+            menuItem("Want a credit?", tabName = "credit", icon = icon("usd",lib = "glyphicon")),
             menuItem("Invest your money!", tabName = "invest", icon = icon("btc", lib = "glyphicon")),
             br(), br(),  
             h5("App developed by The Plumbers "), HTML('<center><img src="plumbers.png" width="240" height="180"></center>'), h5(" for the Bancolombia's Dataton"),
