@@ -1,6 +1,7 @@
 server <- function(input, output) {
     set.seed(122)
     histdata <- rnorm(500)
+    #print(getwd())
     
     output$plot1 <- renderPlot({
         data <- histdata[seq_len(input$slider)]
@@ -49,4 +50,16 @@ server <- function(input, output) {
         })
         dropdownMenu(type = "tasks", .list = items)
     })
+    
+    # End of page image
+    output$plumbers <- renderImage({
+            list(
+                src = "plumbers.jpg",
+                width = 100,
+                height = 75,
+                align = 'center',
+                contentType = "image/jpeg",
+                alt = "Plumbers"
+            )
+    }, deleteFile = FALSE)
 }
