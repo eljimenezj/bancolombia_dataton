@@ -10,7 +10,7 @@ La aplicacion esta dividida en 4 partes principales.
 
 ### 1. Controla tus gastos.
 
-Descripcion
+En este apartado el usuario podrá revisar como ha sido su transaccionalidad y encontrará algunos indicadores estadisticos básicos que le permite entender como está frente a otros usuarios.
 
 ### 2. Capacidad de ahorro.
 
