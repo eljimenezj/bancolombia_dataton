@@ -1,4 +1,4 @@
-server <- function(input, output) {
+server <- function(input, output, session) {
     set.seed(122)
     histdata <- rnorm(500)
     #print(getwd())
@@ -7,6 +7,75 @@ server <- function(input, output) {
         data <- histdata[seq_len(input$slider)]
         hist(data)
     })
+    
+    
+    # Observer to handle changes to the username
+    observe({
+        linePrefix <- function(){
+            if (is.null(isolate(vars$chat))){
+                return("")
+            }
+            return("<br />")
+        }    
+            # We want a reactive dependency on this variable, so we'll just list it here.
+        input$user
+        
+        # Generamos los valores de los chats
+        
+        vars <- reactiveValues(chat=NULL, user=NULL)
+        vars$user <- input$id
+        vars$chat <- paste0(linePrefix(),
+                            tags$span(class="username",
+                                      tags$abbr(title=Sys.time(), "Virtual Assistant")
+                            ),
+                            ": ",
+                            "Hola ", vars$user, "! En que te puedo ayudar?")
+        
+    
+        
+        # Listen for input$send changes (i.e. when the button is clicked)
+        observe({
+            if(input$send < 1){
+                # The code must be initializing, b/c the button hasn't been clicked yet.
+                return()
+            }
+            isolate({
+                # Add the current entry to the chat log.
+                vars$chat <- c(vars$chat, 
+                                paste0(linePrefix(),
+                                       tags$span(class="username",
+                                                 tags$abbr(title=Sys.time(), vars$user)
+                                       ),
+                                       ": ",
+                                       tagList(input$entry)))
+                
+                
+                
+                vars$chat <- c(vars$chat,  paste0(linePrefix(),
+                                                  tags$span(class="username",
+                                                            tags$abbr(title=Sys.time(), "Virtual Assistant")
+                                                  ),
+                                                  ": ",
+                                                  input$entry))
+            })
+            # Clear out the text entry field.
+            updateTextInput(session, "entry", value="")
+        })
+   
+    
+    # Dynamically create the UI for the chat window.
+    output$chat <- renderUI({
+        if (length(vars$chat) > 500){
+            # Too long, use only the most recent 500 lines
+            vars$chat <- vars$chat[(length(vars$chat)-500):(length(vars$chat))]
+        }
+        
+        # Pass the chat log through as HTML
+        HTML(vars$chat)
+        })
+    })
+    
+    
     
     # Messages
     

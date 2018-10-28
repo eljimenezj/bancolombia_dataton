@@ -48,7 +48,22 @@ ui <- dashboardPage(
             
             # Fourth tab content
             tabItem(tabName = "invest",
-                    h2("Invest tab content")
+                    h2("Habla con el asesor!"),
+                    div(
+                        class = "row-fluid", 
+                        mainPanel(
+                            # Create a spot for a dynamic UI containing the chat contents.
+                            box(uiOutput("chat")),
+                            
+                            # Create the bottom bar to allow users to chat.
+                            fluidRow(
+                                div(textInput("entry", "")
+                                ),
+                                div(actionButton("send", "Send")
+                                )
+                            )
+                        )
+                    )
             )
         )
     )
