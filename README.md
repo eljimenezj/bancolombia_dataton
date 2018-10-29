@@ -6,9 +6,9 @@ Este es el repositorio de la solución para el *_Dataton BC 2018_* desarrollada 
 2. [Oscar Nicolas Gomez Giraldo](https://github.com/nicolasggiraldo)
 3. [Juan Camilo Fernandez Prato](https://github.com/jcfernandezp) 
 
-Para utilizar la aplicacion, puede ingresar a este [link de shinyapps](https://jcfernandezp.shinyapps.io/DatatonBC/), utilizando los ID's 1255, 55, 63, 99, 4575. Es posible utilizar otros ID's pero cabe resaltar que la app no presenta todos los datos, por lo tanto puede que no arroje resultados.
+Para utilizar la aplicacion, puede ingresar a este [link de shinyapps](https://jcfernandezp.shinyapps.io/DatatonBC/), utilizando los ID's 1255, 55, 63, 99, 4575. Es posible utilizar otros ID's pero cabe resaltar que la app no presenta todos los datos por temas de almacenamiento, por lo tanto puede que no arroje resultados.
 
-Si desea correr la aplicacion local con la totalidad de los datos, contactarse con el equipo para darles acceso a los datos modificados.
+Si desea correr la aplicacion local con la totalidad de los datos, contactarse con el equipo para darles acceso a los datos modificados. Sin embargo, los cogidos de ETL estan dentro del repositorio.
 
 La aplicación está dividida en 4 partes principales.
 
@@ -29,4 +29,4 @@ Para la asignación de créditos ágil se construyó un modelo de otorgamiento d
 En este apartado se construyó un asistente virtual que a partir de la capacidad de ahorro y el segmento que tiene el cliente le recomienda opciones diferentes de inversión en los fondos con los que cuenta el banco, brindando información incluso de los montos mínimos necesarios para la apertura de estos.
 
 
-<img src="https://www.grupobancolombia.com/wps/wcm/connect/050251d9-15cc-48a1-8b81-0b94a79b3282/logo-bancolombia.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE-050251d9-15cc-48a1-8b81-0b94a79b3282-men-kU7" alt="Bancolombia" width="400" height="240"/> <img src="https://png2.kisspng.com/sh/3ba3ea652870af325905a191557adfc5/L0KzQYm3V8A0N6t0fpH0aYP2gLBuTfFlaZ9mReVALYTog7r6ggQueJ16hdRucj38grbwkr1mdl5Aed13LXnveX79gfxtbZt0ReJ1dX3ldcP6TcVjO5M3eaoBMUSzcYOATsUyOmQ1SKg9MUW2QIe3VME3PmE9SqM3cH7q/kisspng-adana-su-tesisat-plumber-yreir-en-yakn-ili-vallejo-plumbers-5b3b2a86140a27.5123006415306041660821.png" alt="Plumbers" width="300" height="240"/>
+<img src="https://www.grupobancolombia.com/wps/wcm/connect/050251d9-15cc-48a1-8b81-0b94a79b3282/logo-bancolombia.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE-050251d9-15cc-48a1-8b81-0b94a79b3282-men-kU7" alt="Bancolombia" width="400" height="240"/>
