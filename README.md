@@ -4,7 +4,7 @@ Este es el repositorio de la solucion para el *_Dataton BC 2018_* desarrollada p
 
 1. [Edgar Leandro Jimenez Jaimes](https://github.com/eljimenezj)
 2. [Oscar Nicolas Gomez Giraldo](https://github.com/nicolasggiraldo)
-3. [Juan Camilo Fernandez](https://github.com/jcfernandezp) 
+3. [Juan Camilo Fernandez Prato](https://github.com/jcfernandezp) 
 
 La aplicacion esta dividida en 4 partes principales.
 
