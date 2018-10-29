@@ -17,7 +17,7 @@
 \usepackage{breakurl}
 \begin{document}
 
-\title{Certificado de Otorgamiento de Crédito}
+\title{Certificado de Otorgamiento de Credito}
 
 \author{BANCOLOMBIA S.A}
 
@@ -25,14 +25,14 @@
 Cordial saludo,
 \hfill \break
 
-Señor(a) usuario con ID:
+Senor(a) usuario con ID:
 
 <<setup, echo=FALSE, cache=FALSE>>=
 print(input$id)
 @
 
 
-BANCOLOMBIA S.A se permite informar que el usuario a la fecha de expedición de esta certificación le ha sido otorgado un crédito por medio del sistema credi-ágil de la aplicación PFM. Las caracteristicas del credito se presentan a continuación:
+BANCOLOMBIA S.A se permite informar que el usuario a la fecha de expedicion de esta certificacion le ha sido otorgado un credito por medio del sistema credi-agil de la aplicacion PFM. Las caracteristicas del credito se presentan a continuacion:
 
 <<setup1, echo=FALSE, cache=FALSE>>=
 table <- params$table
@@ -62,7 +62,7 @@ The Plumbers
 \hfill \break
 
 
-Recuerde que este certificado fue generado automaticamente por credi-ágil.
+Recuerde que este certificado fue generado automaticamente por credi-agil.
 \hfill \break
-También puede entrar a la pagina de BANCOLOMBIA S.A y realizar su proceso de desembolso: \url{https://www.grupobancolombia.com/wps/portal/personas}.
+Tambien puede entrar a la pagina de BANCOLOMBIA S.A y realizar su proceso de desembolso: \url{https://www.grupobancolombia.com/wps/portal/personas}.
 \end{document}

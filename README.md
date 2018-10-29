@@ -6,6 +6,10 @@ Este es el repositorio de la solución para el *_Dataton BC 2018_* desarrollada 
 2. [Oscar Nicolas Gomez Giraldo](https://github.com/nicolasggiraldo)
 3. [Juan Camilo Fernandez Prato](https://github.com/jcfernandezp) 
 
+Para utilizar la aplicacion, puede ingresar a este [link de shinyapps](https://jcfernandezp.shinyapps.io/DatatonBC/), utilizando los ID's 1255, 55, 63, 99, 4575. Es posible utilizar otros ID's pero cabe resaltar que la app no presenta todos los datos, por lo tanto puede que no arroje resultados.
+
+Si desea correr la aplicacion local con la totalidad de los datos, contactarse con el equipo para darles acceso a los datos modificados.
+
 La aplicación está dividida en 4 partes principales.
 
 ### 1. Controla tus gastos
