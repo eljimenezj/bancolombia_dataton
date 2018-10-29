@@ -10,12 +10,15 @@ library(data.table)
 
 # Cargamos datos
 
-#fread('https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_descriptivo.csv')
+path <- "https://bancoblob.blob.core.windows.net/data/consolidado.csv"
+path2 <- "https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_ingresos.csv"
+path3 <- "https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_segmento.csv"
+path4 <- 'https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_descriptivo.csv'
 
 path <- "data/consolidado.csv"
 path2 <- "data/dt_info_pagadores_ingresos.csv"
 path3 <- "data/dt_info_pagadores_segmento.csv"
-path4 <- "data/dt_info_pagadores_descriptivo.csv"
+path4 <- 'data/dt_info_pagadores_descriptivo.csv'
 
 df <- fread(path,sep=",", header = T, stringsAsFactors = F,
             encoding="UTF-8")
@@ -214,7 +217,9 @@ server <- function(input, output, session) {
     
     saving_capacity <- function(id,p_ahorro){
         df_id     <- data.frame(valor_trx = df[id_cliente==id,]$valor_trx)
+        pdf(file = NULL)
         dfc       <- sma(df_id$valor_trx , h=3, silent=FALSE)
+        dev.off()
         ingresos  <- data.frame(ingreso = df2[id_cliente==id,]$ingreso)
         egreso    <- data.frame(valor_trx=as.numeric(dfc$forecast + (sd(df_id$valor_trx)*runif(1,0,0.1))*
                                                          round(runif(1,-1,1),digits = 0)))
@@ -244,7 +249,7 @@ server <- function(input, output, session) {
         credito <- saving_capacity(id,p_ahorro)$Monto_maximo * factor_mult
         credito <- ifelse(credito > 20000000, 20000000, credito)
         
-        data.frame(Tasa = paste0(tasa,"%"," ","E.A"), Credito = credito)
+        data.frame(Tasa = paste0(tasa,"%"," ","E.A."), Credito = credito)
         
     }
     
@@ -279,19 +284,30 @@ server <- function(input, output, session) {
         df_plot <- fb(id)
         
         # Grafica
-        print(df_plot)
-        scale_fac <- mean(df_plot$valor_trx)/min(df_plot$ingreso)
+        if (max(df_plot$ingreso) >= max(df_plot$valor_trx)){
+            scale_fac <- max(df_plot$valor_trx) * 1.01 /max(df_plot$ingreso)
+        } else {
+            scale_fac <- mean(df_plot$valor_trx)/max(df_plot$ingreso)
+        }
         
         p10 <- ggplot(df_plot, aes(x=periodo)) + 
-            geom_line(df_plot, y = valor_trx) + 
-            geom_line(df_plot, y = ingreso, aes(y=ingreso * scale_fac)) +
-            scale_y_continuous(sec.axis= sec_axis(~.*scale, name="Ingresos"))
-        
-        p10 <- p10 + ggtitle(paste("Ingresos estimados vs Pronóstico Gastos PSE \n Usuario ID: ",id))
-        p10 <- p10 + 
-            scale_y_continuous(labels = scales::comma, name = "Cifras en pesos COP")
+            geom_line(aes(y = valor_trx, colour = "Gastos")) + 
+            geom_line(aes(y = ingreso * scale_fac, colour = "Ingresos Escalados")) +
+            labs(x="Periodo", y="$") +
+            scale_y_continuous(sec.axis= sec_axis(~./scale_fac, name="Ingresos"))
         
         ggplotly(p10)
+    })
+    
+    output$income <- renderValueBox({
+        id <- as.integer(input$id)
+        df_id <- df2[id_cliente==as.integer(id),]
+        valueBox(
+            value = paste0("$", formatC(as.numeric(df_id$ingreso[1]), format="f", digits=2, big.mark=",")),
+            subtitle = "Ingresos mensuales",
+            icon = icon("usd", lib = "glyphicon"),
+            color = "green"
+        )
     })
     
     output$month1 <- renderValueBox({
@@ -345,6 +361,9 @@ server <- function(input, output, session) {
         )
     })
     
+    table <- reactive({ 
+        prestamo_a_otorgar(input$id, as.integer(input$saving_rate)/100)
+    })
     output$amount <- renderValueBox({
         amount <- prestamo_a_otorgar(input$id, as.integer(input$saving_rate)/100)
         valueBox(
@@ -371,12 +390,54 @@ server <- function(input, output, session) {
             paste("credit-certificate-", Sys.Date(), ".pdf", sep="")
         },
         content = function(file) {
-            rate='20%'
-            user='20'
-            monto=paste0("$", formatC(as.numeric('200000'), format="f", digits=2, big.mark=","))
+            amount <- prestamo_a_otorgar(input$id, as.integer(input$saving_rate)/100)
+            params <- list(table = amount)
             out = knit2pdf('pdf_shell.Rnw', clean = TRUE)
             file.rename(out, file) # move pdf to file for downloading
         }, contentType = 'application/pdf')
+    
+    # Chat
+    
+    chatbot <- function(id,question){
+        if (nrow(df3[id_cliente==id,])==0){
+            return("Lo siento, no cuento con información suficiente para brindarte una respuesta.")
+        }
+        if (question=="En que puedo invertir?"){
+            if(df3[id_cliente==id,]$segmento == "Experto Digital"){
+                paste0("Con gusto ", id, "! Según su perfil transaccional, puede revisar esta opción de inversión:\n Renta Alta Convicción: Alternativa concentrada de Inversión\n Este fondo te permitirá buscar un crecimiento de capital en un horizonte de largo plazo asumiendo un riesgo alto.")
+            }else if(df3[id_cliente==id,]$segmento == "Asociado Digital"){
+                paste0("Definitivamente ", id, "! Según su perfil transaccional, puede revisar esta opción de inversión:\n Renta Balanceado Global:\n Esta es una alternativa de inversión a mediano y largo plazo, que te permite tener en un solo producto un portafolio altamente diversificado.")
+            }else if(df3[id_cliente==id,]$segmento == "Aprendiz Digital"){
+                paste0("Claro ", id, "! Según su perfil transaccional, puede revisar esta opción de inversión:\n Renta Fija Plus:\n Con Renta Fija Plus encuentras una alternativa para invertir a mediano plazo en emisores no tradicionales.")
+            }else{
+                paste0("Por supuesto ", id, "! Según su perfil transaccional, puede revisar esta opción de inversión:\n Fiducuenta:\n Encuentra en la Fiducuenta una opción de inversión a corto plazo, manteniendo disponible tu dinero para el manejo tu liquidez.")
+            }
+        }else if(question=="Cual es la tasa de rendimiento de mi inversion?"){
+            if(df3[id_cliente==id,]$segmento == "Experto Digital"){
+                paste0("Con gusto ", id, "! Según su perfil transaccional y su fondo de inversion referenciado, podrá tener una tasa de rendimiento aproximada de 12% E.A.")
+            }else if(df3[id_cliente==id,]$segmento == "Asociado Digital"){
+                paste0("Claro ", id, "! Según su perfil transaccional y su fondo de inversion referenciado, podrá tener una tasa de rendimiento aproximada de 10,2% E.A.")
+            }else if(df3[id_cliente==id,]$segmento == "Aprendiz Digital"){
+                paste0("Por supuesto ", id, "! Según su perfil transaccional y su fondo de inversion referenciado, podrá tener una tasa de rendimiento aproximada de 8,6% E.A.")
+            }else{
+                paste0("Definitivamente ", id, "! según su perfil transaccional y su fondo de inversion referenciado, podrá tener una tasa de rendimiento aproximada de 8% E.A.")
+            } 
+        }else if(question=="Cuanto es el monto minimo de inversion para mi fondo?"){
+            if(df3[id_cliente==id,]$segmento == "Experto Digital"){
+                paste0("Definitivamente ", id, "! Según su perfil transaccional y su fondo de inversion referenciado,el monto minimo para su apertura es de $3.124.968 COP")
+            }else if(df3[id_cliente==id,]$segmento == "Asociado Digital"){
+                paste0("Con gusto ", id, "! Según su perfil transaccional y su fondo de inversion referenciado,el monto minimo para su apertura es de $3.124.968 COP")
+            }else if(df3[id_cliente==id,]$segmento == "Aprendiz Digital"){
+                paste0("Claro ", id, "! Según su perfil transaccional y su fondo de inversion referenciado,el monto minimo para su apertura es de $ 1.562.484 COP")
+            }else{
+                paste0("Por supuesto ", id, "! Según su perfil transaccional y su fondo de inversion referenciado,el monto minimo para su apertura es de $ 200.000 COP")
+            }     
+        }
+        
+        else{"No entendi tu pregunta, por favor intenta nuevamente."}
+        
+    }
+    
     
     # Observer to handle changes to the username
     observe({
@@ -418,14 +479,14 @@ server <- function(input, output, session) {
                                        ": ",
                                        tagList(input$entry)))
                 
-                
+                response = chatbot(input$id, input$entry)
                 
                 vars$chat <- c(vars$chat,  paste0(linePrefix(),
                                                   tags$span(class="username",
                                                             tags$abbr(title=Sys.time(), "Asistente Virtual")
                                                   ),
                                                   ": ",
-                                                  tagList(input$entry)))
+                                                  tagList(response)))
                 # a("xx",href="http://www.xx.com")
             })
             # Clear out the text entry field.

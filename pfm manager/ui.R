@@ -3,7 +3,7 @@ library(data.table)
 library(plotly)
 
 ui <- dashboardPage(
-    dashboardHeader(title = "PFM Manager",
+    dashboardHeader(title = "PF Manager",
                     dropdownMenuOutput("messageMenu"),
                     dropdownMenuOutput("notificationsMenu"),
                     dropdownMenuOutput("tasksMenu")
@@ -69,7 +69,8 @@ ui <- dashboardPage(
                     fluidRow(
                         valueBoxOutput("month1"),
                         valueBoxOutput("month2"),
-                        valueBoxOutput("month3")
+                        valueBoxOutput("month3"),
+                        valueBoxOutput("income")
                     ),
                     #
                     div(style="display: inline-block;vertical-align:top; width: 250px;", numericInput("meta", h4("Ingresa tu meta de ahorro"), value = 500000)),
@@ -108,8 +109,7 @@ ui <- dashboardPage(
                     box(h3('Lo que me puedes preguntar:'),
                         h5('En que puedo invertir?'),
                         h5('Cual es la tasa de rendimiento de mi inversion?'),
-                        h5('Cuanto serian los intereses ganados?'),
-                        h5('Cual es el tiempo de retorno de la inversion?')),
+                        h5('Cuanto es el monto minimo de inversion para mi fondo?')),
                     # Create the bottom bar to allow users to chat.
                     fluidRow(
                         div(textInput("entry", "")

@@ -35,9 +35,10 @@ print(input$id)
 BANCOLOMBIA S.A se permite informar que el usuario a la fecha de expedición de esta certificación le ha sido otorgado un crédito por medio del sistema credi-ágil de la aplicación PFM. Las caracteristicas del credito se presentan a continuación:
 
 <<setup1, echo=FALSE, cache=FALSE>>=
-print(paste0('La tasa E.A es de: ', '20%'))
-print(paste0('La el monto es de: ', '$200.000'))
-print(paste0('El plazo es de: ', '3 meses'))
+table <- params$table
+print(paste0('La tasa es de: ', table$Tasa[1]))
+print(paste0('La el monto es de: ', paste0("$", formatC(as.numeric(table$Credito[1]), format="f", digits=2, big.mark=","))))
+print(paste0('El plazo es de: ', '12 meses'))
 @
 
 
