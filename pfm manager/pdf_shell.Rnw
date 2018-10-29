@@ -17,19 +17,22 @@
 \usepackage{breakurl}
 \begin{document}
 
-\title{Certificado de Credito}
+\title{Certificado de Otorgamiento de Crédito}
 
-\author{Bancolombia SA}
+\author{BANCOLOMBIA S.A}
 
 \maketitle
-Hola! Este es el certificado de tu rapi-credito, otorgado al ID:
+Cordial saludo,
+\hfill \break
+
+Señor(a) usuario con ID:
 
 <<setup, echo=FALSE, cache=FALSE>>=
 print(input$id)
 @
 
 
-Las caracteristicas de tu credito se presentan aca:
+BANCOLOMBIA S.A se permite informar que el usuario a la fecha de expedición de esta certificación le ha sido otorgado un crédito por medio del sistema credi-ágil de la aplicación PFM. Las caracteristicas del credito se presentan a continuación:
 
 <<setup1, echo=FALSE, cache=FALSE>>=
 print(paste0('La tasa E.A es de: ', '20%'))
@@ -38,14 +41,14 @@ print(paste0('El plazo es de: ', '3 meses'))
 @
 
 
-Acercate a tu oficina mas cercana y reclamalo.
+Puede acercarse a nuestras oficinas mas cercana para que uno de nuestros asesores le ayude agilizar su proceso de desembolso.
 \hfill \break
 
 Certificado elaborado por: 
 \hfill \break
 
 
-Bancolombia
+BANCOLOMBIA S.A
 \begin{figure}[h!]
   \includegraphics[width=0.2\textwidth]{www/index.png}
 \end{figure}
@@ -58,7 +61,7 @@ The Plumbers
 \hfill \break
 
 
-No quieres ir a tu oficina mas cercana y hacer fila? 
+Recuerde que este certificado fue generado automaticamente por credi-ágil.
 \hfill \break
-Puedes entrar a la pagina de bancolombia y reclamar tu credito: \url{https://www.grupobancolombia.com/wps/portal/personas}.
+También puede entrar a la pagina de BANCOLOMBIA S.A y realizar su proceso de desembolso: \url{https://www.grupobancolombia.com/wps/portal/personas}.
 \end{document}
