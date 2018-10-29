@@ -1,0 +1,64 @@
+%% LyX 2.2.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{article}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\hypersetup{
+ pdfstartview={XYZ null null 1}}
+\usepackage{breakurl}
+\begin{document}
+
+\title{Certificado de Credito}
+
+\author{Bancolombia SA}
+
+\maketitle
+Hola! Este es el certificado de tu rapi-credito, otorgado al ID:
+
+<<setup, echo=FALSE, cache=FALSE>>=
+print(input$id)
+@
+
+
+Las caracteristicas de tu credito se presentan aca:
+
+<<setup1, echo=FALSE, cache=FALSE>>=
+print(paste0('La tasa E.A es de: ', '20%'))
+print(paste0('La el monto es de: ', '$200.000'))
+print(paste0('El plazo es de: ', '3 meses'))
+@
+
+
+Acercate a tu oficina mas cercana y reclamalo.
+\hfill \break
+
+Certificado elaborado por: 
+\hfill \break
+
+
+Bancolombia
+\begin{figure}[h!]
+  \includegraphics[width=0.2\textwidth]{www/index.png}
+\end{figure}
+\hfill \break
+
+The Plumbers
+\begin{figure}[h!]
+  \includegraphics[width=0.15\textwidth]{www/plumbers.png}
+\end{figure}
+\hfill \break
+
+
+No quieres ir a tu oficina mas cercana y hacer fila? 
+\hfill \break
+Puedes entrar a la pagina de bancolombia y reclamar tu credito: \url{https://www.grupobancolombia.com/wps/portal/personas}.
+\end{document}

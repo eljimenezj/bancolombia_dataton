@@ -1,5 +1,6 @@
 library(shinydashboard)
 library(data.table)
+library(plotly)
 
 ui <- dashboardPage(
     dashboardHeader(title = "PFM Manager",
@@ -10,7 +11,7 @@ ui <- dashboardPage(
     dashboardSidebar(
         sidebarMenu(
             HTML('<center><img src="index.png" width="200" height="120"></center>'),
-            textInput("id", label = h4("Enter your ID:"), value = "Ex: 152436789"),
+            textInput("id", label = h4("Enter your ID:"), value = "12"),
             br(),
     
             menuItem("Control your expenses", tabName = "expenses", icon = icon("briefcase", lib = "glyphicon")),
@@ -27,13 +28,30 @@ ui <- dashboardPage(
             # First tab content
             tabItem(tabName = "expenses",
                     fluidRow(
-                        box(plotOutput("plot1", height = 250)),
-                        
                         box(
-                            title = "Controls",
-                            sliderInput("slider", "Number of observations:", 1, 100, 50)
+                            h2('Como son sus gastos?'),
+                            plotlyOutput("plot1", height = 250),
+                            selectInput("period", h5("Selecciona el periodo de tiempo"), 
+                                         choices = list("Mes" = 1, "Triemestre" = 2,
+                                                        "Ano" = 3), selected = 1)),
+                        box(h2('Visualice sus gastos'),
+                            plotlyOutput("plot2", height = 250)
+                        )),
+                        box(
+                            h2('En que se van los gastos?'),
+                            plotlyOutput("plot3", height = 250),
+                            selectInput("ref", h5("Selecciona la referencia"), 
+                                        choices = list("Ref 1" = 1, "Ref 2" = 2,
+                                                       "Ref 3" = 3), selected = 1)
+                        ),
+                        box(
+                            h2('En donde se concentran los gastos?'),
+                            plotlyOutput("plot4", height = 250),
+                            selectInput("sector", h5("Selecciona el nivel sectorial"), 
+                                        choices = list("Sector" = 1, "Subsector" = 2,
+                                                       "Descripcion" = 3), selected = 1)
                         )
-                    )
+                    
             ),
             
             # Second tab content
@@ -43,27 +61,30 @@ ui <- dashboardPage(
             
             # Third tab content
             tabItem(tabName = "credit",
-                    h2("Credit tab content")
+                    h2("Credit tab content"),
+                    actionButton("link", "Aprovecha tu credito", onclick ="window.open('https://www.grupobancolombia.com/wps/portal/personas')"),
+                    downloadButton("downloadCert", "Bajar certificado")
             ),
             
             # Fourth tab content
             tabItem(tabName = "invest",
+                    column(12, align="center",
                     h2("Habla con el asesor!"),
-                    div(
-                        class = "row-fluid", 
-                        mainPanel(
-                            # Create a spot for a dynamic UI containing the chat contents.
-                            box(uiOutput("chat")),
-                            
-                            # Create the bottom bar to allow users to chat.
-                            fluidRow(
-                                div(textInput("entry", "")
-                                ),
-                                div(actionButton("send", "Send")
-                                )
-                            )
+                    # Create a spot for a dynamic UI containing the chat contents.
+                    box(uiOutput("chat")),
+                    box(h3('Lo que me puedes preguntar:'),
+                        h5('En que puedo invertir?'),
+                        h5('Cual es la tasa de rendimiento de mi inversion?'),
+                        h5('Cuanto serian los intereses ganados?'),
+                        h5('Cual es el tiempo de retorno de la inversion?')),
+                    # Create the bottom bar to allow users to chat.
+                    fluidRow(
+                        div(textInput("entry", "")
+                        ),
+                        div(actionButton("send", "Send")
                         )
                     )
+                )
             )
         )
     )

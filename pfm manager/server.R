@@ -1,13 +1,115 @@
+# Instalamos librerias
+library(scales)
+library(plotly)
+library(ggplot2)
+library(plotrix)
+library(knitr)
+library(plotly)
+
+# Cargamos datos
+
+fread('https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_descriptivo.csv')
+
+path <- "data/consolidado.csv"
+
+df <- fread(path,sep=",", header = T, stringsAsFactors = F,
+            encoding="UTF-8")
+
+colnames(df) <- c("id_trans","id_cliente","fecha","hora",
+                  "valor_trx","ref1","ref2","ref3",
+                  "sector","subsector","descripcion")
+
+## Transformacioin columna fechas
+df$fecha <- as.Date(as.character(df$fecha), "%Y%m%d")
+
 server <- function(input, output, session) {
-    set.seed(122)
-    histdata <- rnorm(500)
-    #print(getwd())
     
-    output$plot1 <- renderPlot({
-        data <- histdata[seq_len(input$slider)]
-        hist(data)
+    output$plot1 <- renderPlotly({
+        id <- as.integer(input$id)
+        df_id <- df[id_cliente==as.integer(id),]
+        
+        if (input$period == 1){
+            label <- factor(month(df_id$fecha))
+        } else if (input$period == 2) {
+            label <- factor(quarter(df_id$fecha))
+        } else {
+            label <- factor(year(df_id$fecha))
+        }
+
+        p10   <- ggplot(df_id, aes(x = label, 
+                                   y = valor_trx)) +  geom_boxplot(fill = "#220095", colour = "black",
+                                                                   alpha = 0.7)
+        p10 <- p10 + ggtitle(paste("Transacciones por tiempo. ID: ",id))
+        p10 <- p10 + scale_x_discrete(name = "Tiempo") +
+            scale_y_continuous(labels = scales::comma, name = "$")
+        
+        ggplotly(p10)
     })
     
+    output$plot2 <- renderPlotly({
+        id <- as.integer(input$id)
+        df_id <- df[id_cliente==as.integer(id),]
+        
+        p10   <- ggplot(df_id, aes(x = fecha, 
+                                   y = valor_trx)) +  geom_line(fill = "#220095", colour = "black",
+                                                                   alpha = 0.7)
+        p10 <- p10 + ggtitle(paste("Transacciones. ID: ",id))
+        p10 <- p10 + scale_x_date(name = "Tiempo") +
+            scale_y_continuous(labels = scales::comma, name = "$")
+        
+        ggplotly(p10)
+    })
+    
+    output$plot3 <- renderPlotly({
+        id <- as.integer(input$id)
+        df_id <- df[id_cliente==as.integer(id),]
+        
+        if (input$ref == 1){
+            p10   <- plot_ly(df_id, labels = ~ref1, values = ~valor_trx, type = 'pie') 
+        } else if (input$ref == 2){
+            p10   <- plot_ly(df_id, labels = ~ref2, values = ~valor_trx, type = 'pie') 
+        } else {
+            p10   <- plot_ly(df_id, labels = ~ref3, values = ~valor_trx, type = 'pie') 
+        }
+        
+        p10 <- p10 %>% layout(xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+                   yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+                   showlegend = FALSE)
+        
+        p10
+    })
+    
+    
+    output$plot4 <- renderPlotly({
+        id <- as.integer(input$id)
+        df_id <- df[id_cliente==as.integer(id),]
+        
+        if (input$sector == 1){
+            p10   <- plot_ly(df_id, x = ~sector, y = ~valor_trx, type = 'bar', color = ~sector) %>%  layout(xaxis = list(title = "Sector")) 
+        } else if (input$sector == 2){
+            p10   <- plot_ly(df_id, x = ~subsector, y = ~valor_trx, type = 'bar', color = ~subsector) %>%  layout(xaxis = list(title = "Subsector")) 
+        } else {
+            p10   <- plot_ly(df_id, x = ~descripcion, y = ~valor_trx, type = 'bar', color = ~descripcion) %>%  layout(xaxis = list(title = "Descripcion")) 
+        }
+        
+        p10 <- p10 %>%  layout(showlegend = FALSE, yaxis = list(title = "$")) 
+        
+        p10
+    })
+    
+    # Markdown download button
+    
+    output$downloadCert <- downloadHandler(
+        filename = function() { 
+            paste("credit-certificate-", Sys.Date(), ".pdf", sep="")
+        },
+        content = function(file) {
+            rate='20%'
+            user='20'
+            monto=paste0("$", formatC(as.numeric('200000'), format="f", digits=2, big.mark=","))
+            out = knit2pdf('pdf_shell.Rnw', clean = TRUE)
+            file.rename(out, file) # move pdf to file for downloading
+        }, contentType = 'application/pdf')
     
     # Observer to handle changes to the username
     observe({
@@ -56,7 +158,8 @@ server <- function(input, output, session) {
                                                             tags$abbr(title=Sys.time(), "Virtual Assistant")
                                                   ),
                                                   ": ",
-                                                  input$entry))
+                                                  tagList(input$entry)))
+                # a("xx",href="http://www.xx.com")
             })
             # Clear out the text entry field.
             updateTextInput(session, "entry", value="")
