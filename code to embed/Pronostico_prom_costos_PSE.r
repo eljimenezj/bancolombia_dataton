@@ -15,7 +15,7 @@ df <- fread(path,sep=",", header = T, stringsAsFactors = F,
 colnames(df) <- c("id_trans","id_cliente","fecha","hora",
                   "valor_trx","ref1","ref2","ref3",
                   "sector","subsector","descripcion")
- as.Date(as.character(df$fecha), "%Y%m%d")
+
 
 
 ## Funcion que devuelve el promedio del gasto pronosticado 
@@ -25,7 +25,7 @@ colnames(df) <- c("id_trans","id_cliente","fecha","hora",
 
 
 ## Transformacioin columna fechas
-df$fecha <-
+df$fecha <-  as.Date(as.character(df$fecha), "%Y%m%d")
 # install.packages("smooth")
 require(smooth)
 
