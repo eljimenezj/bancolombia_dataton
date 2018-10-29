@@ -10,15 +10,17 @@ library(data.table)
 
 # Cargamos datos
 
-path <- "https://bancoblob.blob.core.windows.net/data/consolidado.csv"
-path2 <- "https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_ingresos.csv"
-path3 <- "https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_segmento.csv"
-path4 <- 'https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_descriptivo.csv'
+# path <- "https://bancoblob.blob.core.windows.net/data/consolidado.csv"
+# path2 <- "https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_ingresos.csv"
+# path3 <- "https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_segmento.csv"
+# path4 <- 'https://bancoblob.blob.core.windows.net/data/dt_info_pagadores_descriptivo.csv'
 
 path <- "data/consolidado.csv"
 path2 <- "data/dt_info_pagadores_ingresos.csv"
 path3 <- "data/dt_info_pagadores_segmento.csv"
 path4 <- 'data/dt_info_pagadores_descriptivo.csv'
+
+
 
 df <- fread(path,sep=",", header = T, stringsAsFactors = F,
             encoding="UTF-8")
