@@ -7,6 +7,7 @@ library(knitr)
 library(plotly)
 require(smooth)
 library(data.table)
+library(tinytex)
 
 # Cargamos datos
 
