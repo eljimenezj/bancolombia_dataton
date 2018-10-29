@@ -2,8 +2,8 @@
 
 Este es el repositorio de la solucion para el *_Dataton BC 2018_* desarrollada por el equipo *_The Plumbers_* conformado por:
 
-1. [Edgar Jimenez Jaimes](https://github.com/eljimenezj)
-2. [Nicolas Gomez Giraldo](https://github.com/nicolasggiraldo)
+1. [Edgar Leandro Jimenez Jaimes](https://github.com/eljimenezj)
+2. [Oscar Nicolas Gomez Giraldo](https://github.com/nicolasggiraldo)
 3. [Juan Camilo Fernandez](https://github.com/jcfernandezp) 
 
 La aplicacion esta dividida en 4 partes principales.
