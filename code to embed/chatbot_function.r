@@ -3,8 +3,10 @@ path4 <- "D:\\Users\\EdgarJJ\\Desktop\\Plumbers\\chunks\\dt_info_pagadores_segme
 
 df3 <-  fread(path4,sep=",", header = T, stringsAsFactors = F,
               encoding="UTF-8")
-
 chatbot <- function(id,question){
+  if (nrow(df3[id_cliente==id,])==0){
+    return("Lo sentimos, no contamos con información suficiente para brindarte una respuesta.")
+  }
   if (question=="En que puedo invertir?"){
   if(df3[id_cliente==id,]$segmento == "Experto Digital"){
     "Señor(a) usuari(a), según su perfil transaccional, puede revisar esta opción de inversión:\n Renta Alta Convicción: Alternativa concentrada de Inversión\n Este fondo te permitirá buscar un crecimiento de capital en un horizonte de largo plazo asumiendo un riesgo alto."
