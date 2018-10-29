@@ -79,3 +79,21 @@ dt_info_pagadores <- dt_info_pagadores[, c("id_cliente", "seg_str", "ocupacion",
 fwrite(dt_info_pagadores, 
        paste0(dir_info_pagadores, "dt_info_pagadores_descriptivo.csv"), 
        sep = ",")
+
+# dt_info_pagadores[, table(ingreso_rango)]
+dt_info_pagadores[ingreso_rango == "0", ingreso := 0]
+dt_info_pagadores[ingreso_rango == "a. (0  1.1MM]", ingreso := 550000]
+dt_info_pagadores[ingreso_rango == "b. (1.1  2.2MM]", ingreso := 1650000]
+dt_info_pagadores[ingreso_rango == "c. (2.2  3.3MM]", ingreso := 2750000]
+dt_info_pagadores[ingreso_rango == "d. (3.3  4.4MM]", ingreso := 3850000]
+dt_info_pagadores[ingreso_rango == "e. (4.4  5.5MM]", ingreso := 4950000]
+dt_info_pagadores[ingreso_rango == "f. (5.5  6.6MM]", ingreso := 6050000]
+dt_info_pagadores[ingreso_rango == "g. (6.6  7.6MM]", ingreso := 7100000]
+dt_info_pagadores[ingreso_rango == "h. (7.6  8.7MM]", ingreso := 8150000]
+dt_info_pagadores[ingreso_rango == "i. (8.7  Inf)",   ingreso := 11000000]
+dt_info_pagadores[is.na(ingreso), ingreso := 0]
+
+#### Guardando el resultado en disco ####
+fwrite(dt_info_pagadores[, .(id_cliente, ingreso)], 
+       paste0(dir_info_pagadores, "dt_info_pagadores_ingresos.csv"), 
+       sep = ",")
