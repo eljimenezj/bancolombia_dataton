@@ -1,0 +1,13 @@
+name: DatatonBC
+title: DatatonBC
+username:
+account: jcfernandezp
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 540034
+bundleId: 1669415
+url: https://jcfernandezp.shinyapps.io/DatatonBC/
+when: 1540813649.04178
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: data/README.md|figure/setup1-1.pdf|www/plumbers.jpg
